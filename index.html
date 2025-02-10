@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nakata Christian - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .project-card {
+        perspective: 1000px;
+        transition: all 0.6s ease;
+        background: linear-gradient(145deg, rgba(55, 65, 81, 1) 0%, rgba(31, 41, 55, 1) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .project-card:hover {
+        transform: rotateY(15deg) scale(1.05);
+        box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
+      }
+
+      .floating-element {
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .skill-tag {
+        display: inline-block;
+        background: linear-gradient(145deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        margin: 8px;
+        border-radius: 30px;
+        transition: all 0.4s ease;
+        transform-origin: center;
+      }
+
+      .skill-tag:hover {
+        transform: scale(1.1) rotate(5deg);
+        background: linear-gradient(145deg, rgba(59, 130, 246, 0.4) 0%, rgba(147, 51, 234, 0.4) 100%);
+      }
+
+      .cursor-trail {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(99, 102, 241, 0.5);
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease-out;
+      }
+
+      .nav-link-hover::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #3b82f6;
+        transition: width 0.3s;
+      }
+
+      .nav-link-hover:hover::after {
+        width: 100%;
+      }
+      body {
+        cursor: none;
+      }
+      .cursor-trail {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: rgba(99, 102, 241, 0.5);
+        transform: translate(-50%, -50%);
+        transition: transform 0.05s ease-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white cursor-none">
+    <div id="cursor-trail" class="cursor-trail"></div>
+
+    <!-- Navbar Start -->
+    <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
+      <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <!-- <div class="text-2xl font-bold text-blue-400 interactive-element" onclick="window.location.reload()">Nakata Christian</div> -->
+        <a href="#home" class="text-2xl font-bold text-blue-400 interactive-element">Nakata Christian</a>
+        <div class="space-x-4">
+          <a href="#about" class="text-gray-300 hover:text-blue-400 transition duration-300 interactive-element relative nav-link-hover">About</a>
+          <a href="#projects" class="text-gray-300 hover:text-blue-400 transition duration-300 interactive-element relative nav-link-hover">Projects</a>
+          <a href="#skills" class="text-gray-300 hover:text-blue-400 transition duration-300 interactive-element relative nav-link-hover">Skills</a>
+          <a href="#contact" class="text-gray-300 hover:text-blue-400 transition duration-300 interactive-element relative nav-link-hover">Contact</a>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <header id="home" class="min-h-screen flex items-center justify-center text-center relative">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-purple-900 opacity-70"></div>
+      <div class="relative z-10 container mx-auto px-4 floating-element">
+        <h1 class="text-6xl font-bold mb-4">Hello, I'm <span id="typed" class="text-yellow-300"></span></h1>
+        <p class="text-xl mb-8">Transforming ideas into digital experiences</p>
+        <div class="space-x-4">
+          <a href="#projects" class="inline-block bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element"> Explore My Work </a>
+        </div>
+      </div>
+    </header>
+    <!-- Hero End -->
+
+    <!-- About Start -->
+    <section id="about" class="py-20 bg-gray-800">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-8">About Me</h2>
+        <div class="max-w-2xl mx-auto">
+          <p class="text-gray-300 mb-6">
+            Hi, I’m Nakata Christian, an AI and ML enthusiast with a passion for all things creative. Whether it’s building intelligent systems, exploring the boundaries of machine learning, or crafting innovative solutions, I love pushing
+            the limits of what technology can do. Beyond AI, I’m also the proud parent of numerous Discord bots—each with their own unique personalities and functionalities. From automation to entertainment, I enjoy bringing ideas to life
+            through code. When I’m not tinkering with AI or developing bots, you’ll find me diving into creative projects, brainstorming new concepts, or exploring the latest tech trends. I believe that the intersection of creativity and
+            technology is where the magic happens.
+          </p>
+          <a href="#contact" class="text-gray-300 mb-6 hover:text-blue-500 transition-all">Let's build something together!</a>
+        </div>
+      </div>
+    </section>
+    <!-- About End -->
+
+    <!-- Skill Start -->
+    <section id="skills" class="py-20 bg-gray-900">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-12">My Skill Arsenal</h2>
+        <div class="flex flex-wrap justify-center gap-4">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">Tailwind CSS</span>
+          <span class="skill-tag">nextcord.py</span>
+          <span class="skill-tag">Bootstrap</span>
+        </div>
+      </div>
+    </section>
+    <!-- Skill End -->
+
+    <!-- Project Start -->
+    <section id="projects" class="py-20 bg-gray-800">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-12">My Projects</h2>
+        <div class="grid md:grid-cols-3">
+          <div class="container"></div>
+          <div class="project-card bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-2xl font-semibold mb-4 text-blue-400">Discord Assistant Yuuki</h3>
+            <p class="text-gray-300 mb-6">An assistant Discord bot with lot of features such as reminder, free games notifier, chatbot, music player, etc.</p>
+            <a href="https://github.com/n4ctbyte/yuuki-discord-assistant" target="_blank" class="text-blue-300 hover:text-blue-500 transition interactive-element"> View Project Details </a>
+          </div>
+          <div class="container"></div>
+        </div>
+      </div>
+    </section>
+    <!-- Project End -->
+
+    <!-- Contact Start -->
+    <section id="contact" class="py-20 bg-gray-900">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-8">Let's Turn Your Ideas Into Reality</h2>
+        <form class="max-w-lg mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+          <input type="text" placeholder="Your Name" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" />
+          <input type="email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" />
+          <textarea placeholder="Your Message" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" rows="4"></textarea>
+          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element hover:animate-bounce">Let Me Know</button>
+        </form>
+      </div>
+    </section>
+    <!-- Contact End -->
+
+    <!-- Footer Start -->
+    <footer class="bg-gray-800 py-6 text-center">
+      <p class="text-gray-400">© 2025 Nakata Christian - Digital Creator</p>
+    </footer>
+    <!-- Footer End -->
+
+    <script>
+      new Typed("#typed", {
+        strings: ["a Web Developer", "a Creative Coder", "an AI Enthusiast"],
+        typeSpeed: 100,
+        backSpeed: 50,
+        loop: true,
+      });
+
+      const cursorTrail = document.getElementById("cursor-trail");
+      document.addEventListener("mousemove", (e) => {
+        gsap.to(cursorTrail, {
+          x: e.clientX,
+          y: e.clientY,
+          duration: 0.5,
+          ease: "power1.out",
+        });
+      });
+
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray(".project-card").forEach((card) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 50,
+          scale: 0.8,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
