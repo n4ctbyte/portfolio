@@ -313,11 +313,14 @@
     <section id="contact" class="py-20 bg-gray-900">
       <div class="container mx-auto text-center">
         <h2 class="text-4xl font-bold mb-8">Let's Turn Your Ideas Into Reality</h2>
-        <form class="max-w-lg mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
-          <input type="text" placeholder="Your Name" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" />
-          <input type="email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" />
-          <textarea placeholder="Your Message" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" rows="4"></textarea>
-          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element hover:animate-bounce">Let Me Know</button>
+        <div id="feedback-message" class="hidden bg-green-500 text-white p-3 rounded mb-4">
+          Your message has been succesfully sent!
+          </div>
+        <form name="contact-form" id="contact-form" class="max-w-lg mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+          <input name="name" type="text" placeholder="Your Name" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
+          <input name="email" type="email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
+          <textarea name="message" placeholder="Your Message" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" rows="4" required></textarea>
+          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element">Let Me Know</button>
         </form>
       </div>
     </section>
@@ -442,6 +445,28 @@
             isMenuOpen = false;
           }
           lastScroll = currentScroll;
+        });
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyPSmGpZENko12My3z_s4kmmXw0CQ5H4yMt02PEDpHtVyYSfBMp0bcV3PBIeAdPCNXI/exec'
+        const form = document.forms['contact-form']
+
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => console.log('Success!', response))
+            .catch(error => console.error('Error!', error.message))
+        })
+
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+          event.preventDefault();
+
+          const feedbackMessage = document.getElementById("feedback-message");
+          feedbackMessage.classList.remove("hidden");
+
+          setTimeout(() => {
+            feedbackMessage.classList.add("hidden");
+          }, 3000);
+
+          this.reset();
         });
     </script>
   </body>
