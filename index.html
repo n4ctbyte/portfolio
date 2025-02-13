@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
@@ -185,10 +185,37 @@
         0% { transform: rotate(45deg) translateX(-100%); }
         100% { transform: rotate(45deg) translateX(100%); }
       }
+
+      #splash-screen {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #1a202c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-white cursor-none">
     <div id="cursor-trail" class="cursor-trail"></div>
+
+    <div id="splash-screen" class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center z-50">
+      <lottie-player
+        id="splash-animation"
+        src="https://assets3.lottiefiles.com/packages/lf20_x62chJ.json"
+        background="transparent"
+        speed="1"
+        style="width: 150px; height: 150px;"
+        autoplay
+      ></lottie-player>
+      
+      <h1 id="splash-title" class="text-4xl font-bold text-blue-400 mt-4">Welcome!</h1>
+      <p id="splash-subtitle" class="text-gray-300 text-lg">Loading your experience...</p>
+    </div>
+    
 
     <!-- Navbar Start -->
     <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
@@ -467,6 +494,16 @@
           }, 3000);
 
           this.reset();
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+          let tl = gsap.timeline();
+
+          tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 1.2, ease: "elastic.out(1, 0.5)" })
+            .from("#splash-title", { opacity: 0, y: -20, duration: 1, ease: "power2.out" }, "-=0.8")
+            .from("#splash-subtitle", { opacity: 0, y: 20, duration: 1, ease: "power2.out" }, "-=0.6")
+            .to("#splash-screen", { opacity: 0, filter: "blur(10px)", duration: 1, ease: "power2.out", delay: 1.5 })
+            .set("#splash-screen", { display: "none" });
         });
     </script>
   </body>
