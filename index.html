@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
@@ -61,9 +61,10 @@
         width: 20px;
         height: 20px;
         border-radius: 50%;
-        background: rgba(99, 102, 241, 0.5);
+        background: white;
         transform: translate(-50%, -50%);
         transition: transform 0.1s ease-out;
+        opacity: 0.5;
       }
 
       .nav-link-hover::after {
@@ -90,9 +91,10 @@
         width: 15px;
         height: 15px;
         border-radius: 50%;
-        background: rgba(99, 102, 241, 0.5);
+        background: white;
         transform: translate(-50%, -50%);
         transition: transform 0.05s ease-out;
+        opacity: 0.5;
       }
 
       .social-icon {
@@ -185,10 +187,37 @@
         0% { transform: rotate(45deg) translateX(-100%); }
         100% { transform: rotate(45deg) translateX(100%); }
       }
+
+      #splash-screen {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: #1a202c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-white cursor-none">
     <div id="cursor-trail" class="cursor-trail"></div>
+
+    <div id="splash-screen" class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center z-50">
+      <lottie-player
+        id="splash-animation"
+        src="https://assets3.lottiefiles.com/packages/lf20_x62chJ.json"
+        background="transparent"
+        speed="1"
+        style="width: 150px; height: 150px;"
+        autoplay
+      ></lottie-player>
+      
+      <h1 id="splash-title" class="text-4xl font-bold text-blue-400 mt-4">Welcome!</h1>
+      <p id="splash-subtitle" class="text-gray-300 text-lg">Loading your experience...</p>
+    </div>
+    
 
     <!-- Navbar Start -->
     <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
@@ -226,16 +255,22 @@
     <!-- Navbar End -->
 
     <!-- Hero Start -->
-    <header id="home" class="min-h-screen flex items-center justify-center text-center relative">
-      <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-purple-900 opacity-70"></div>
+    <header id="home" class="min-h-screen flex items-center justify-center text-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a0f1a] opacity-95"></div>
+    
+      <div class="absolute inset-0 bg-[radial-gradient(circle,_rgba(59,130,246,0.15),_transparent_50%)]"></div>
+    
+      <div class="absolute top-0 left-0 right-0 h-1/3 bg-[linear-gradient(to_bottom,_rgba(255,255,255,0.05),_transparent)]"></div>
+    
       <div class="relative z-10 container mx-auto px-4 floating-element">
-        <h1 class="text-6xl font-bold mb-4">Hello, I'm <span id="typed" class="text-yellow-300"></span></h1>
-        <p class="text-xl mb-8">Transforming ideas into digital experiences</p>
+        <h1 class="text-6xl font-bold mb-4 text-white">Hello, I'm <span id="typed" class="text-blue-400"></span></h1>
+        <p class="text-xl mb-8 text-gray-300">Transforming ideas into digital experiences</p>
         <div class="space-x-4">
-          <a href="#projects" class="inline-block bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element"> Explore My Work </a>
+          <a href="#projects" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition interactive-element shadow-md shadow-blue-500/30 hover:animate-bounce"> Explore My Work </a>
         </div>
       </div>
     </header>
+    
     <!-- Hero End -->
 
     <!-- About Start -->
@@ -320,7 +355,7 @@
           <input name="name" type="text" placeholder="Your Name" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
           <input name="email" type="email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
           <textarea name="message" placeholder="Your Message" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" rows="4" required></textarea>
-          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element">Let Me Know</button>
+          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element hover:animate-bounce">Let Me Know</button>
         </form>
       </div>
     </section>
@@ -373,7 +408,7 @@
             trigger: card,
             start: "top 80%",
             end: "bottom 20%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play restart reverse pause",
           },
         });
       });
@@ -467,6 +502,16 @@
           }, 3000);
 
           this.reset();
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+          let tl = gsap.timeline();
+
+          tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 1.2, ease: "elastic.out(1, 0.5)" })
+            .from("#splash-title", { opacity: 0, y: -20, duration: 1, ease: "power2.out" }, "-=0.8")
+            .from("#splash-subtitle", { opacity: 0, y: 20, duration: 1, ease: "power2.out" }, "-=0.6")
+            .to("#splash-screen", { opacity: 0, filter: "blur(10px)", duration: 1, ease: "power2.out", delay: 1.5 })
+            .set("#splash-screen", { display: "none" });
         });
     </script>
   </body>
