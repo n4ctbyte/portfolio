@@ -278,13 +278,13 @@
       <div class="container mx-auto text-center">
         <h2 class="text-4xl font-bold mb-8">About Me</h2>
         <div class="max-w-2xl mx-auto">
-          <p class="text-gray-300 mb-6">
+          <p class="text-gray-300 mb-6 card">
             Hi, I’m Nakata Christian, an AI and ML enthusiast with a passion for all things creative. Whether it’s building intelligent systems, exploring the boundaries of machine learning, or crafting innovative solutions, I love pushing
             the limits of what technology can do. Beyond AI, I’m also the proud parent of numerous Discord bots—each with their own unique personalities and functionalities. From automation to entertainment, I enjoy bringing ideas to life
             through code. When I’m not tinkering with AI or developing bots, you’ll find me diving into creative projects, brainstorming new concepts, or exploring the latest tech trends. I believe that the intersection of creativity and
             technology is where the magic happens.
           </p>
-          <a href="#contact" class="text-gray-300 mb-6 hover:text-blue-500 transition-all">Let's build something together!</a>
+          <a href="#contact" class="text-gray-300 mb-6 hover:text-blue-500 transition-all aboutdesc">Let's build something together!</a>
         </div>
       </div>
     </section>
@@ -312,7 +312,7 @@
         <h2 class="text-4xl font-bold mb-12">My Projects</h2>
         <div class="grid md:grid-cols-3">
           <div class="container"></div>
-          <div class="project-card bg-gray-700 p-6 rounded-lg shadow-lg">
+          <div class="card bg-gray-700 p-6 rounded-lg shadow-lg">
             <h3 class="text-2xl font-semibold mb-4 text-blue-400">Discord Assistant Yuuki</h3>
             <p class="text-gray-300 mb-6">An assistant Discord bot with lot of features such as reminder, free games notifier, chatbot, music player, etc.</p>
             <a href="https://github.com/n4ctbyte/yuuki-discord-assistant" target="_blank" class="text-blue-300 hover:text-blue-500 transition interactive-element"> View On Github </a>
@@ -351,7 +351,7 @@
         <div id="feedback-message" class="hidden bg-green-500 text-white p-3 rounded mb-4">
           Your message has been succesfully sent!
           </div>
-        <form name="contact-form" id="contact-form" class="max-w-lg mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+        <form name="contact-form" id="contact-form" class="max-w-lg mx-auto bg-gray-800 p-8 rounded-lg shadow-lg card">
           <input name="name" type="text" placeholder="Your Name" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
           <input name="email" type="email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
           <textarea name="message" placeholder="Your Message" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" rows="4" required></textarea>
@@ -399,7 +399,7 @@
       });
 
       gsap.registerPlugin(ScrollTrigger);
-      gsap.utils.toArray(".project-card").forEach((card) => {
+      gsap.utils.toArray(".card").forEach((card) => {
         gsap.from(card, {
           opacity: 0,
           y: 50,
@@ -412,6 +412,7 @@
           },
         });
       });
+
 
       function openModal(imageSrc) {
         const modal = document.getElementById('imageModal');
