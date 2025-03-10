@@ -266,7 +266,7 @@
         <h1 class="text-6xl font-bold mb-4 text-white">Hello, I'm <span id="typed" class="text-blue-400"></span></h1>
         <p class="text-xl mb-8 text-gray-300">Transforming ideas into digital experiences</p>
         <div class="space-x-4">
-          <a href="#projects" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition interactive-element shadow-md shadow-blue-500/30"> Explore My Work </a>
+          <a href="#projects" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition interactive-element shadow-md shadow-blue-500/30 hover:animate-bounce"> Explore My Work </a>
         </div>
       </div>
     </header>
@@ -355,7 +355,7 @@
           <input name="name" type="text" placeholder="Your Name" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
           <input name="email" type="email" placeholder="Your Email" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" required />
           <textarea name="message" placeholder="Your Message" class="w-full p-3 mb-4 bg-gray-700 text-white rounded interactive-element" rows="4" required></textarea>
-          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element">Let Me Know</button>
+          <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition interactive-element hover:animate-bounce">Let Me Know</button>
         </form>
       </div>
     </section>
@@ -408,7 +408,7 @@
             trigger: card,
             start: "top 80%",
             end: "bottom 20%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play restart reverse pause",
           },
         });
       });
