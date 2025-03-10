@@ -270,7 +270,6 @@
         </div>
       </div>
     </header>
-    
     <!-- Hero End -->
 
     <!-- About Start -->
@@ -395,6 +394,59 @@
           y: e.clientY,
           duration: 0.1,
           ease: "power1.out",
+        });
+      });
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.to("#home h1", {
+        x: -500,
+        opacity: 0,
+        duration: 1.5,         
+        scrollTrigger: {
+          trigger: "#home",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
+
+      gsap.to("#home p", {
+        x: 500,
+        opacity: 0,            
+        duration: 1.5,
+        scrollTrigger: {
+          trigger: "#home",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
+
+      gsap.to("#home a", {
+        y: 200,
+        opacity: 0,
+        duration: 1.5,
+        scrollTrigger: {
+          trigger: "#home",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        }
+      });
+
+      gsap.utils.toArray(".skill-tag").forEach((skill, index) => {
+        gsap.from(skill, {
+          x: index % 2 === 0 ? -200 : 200,
+          opacity: 0,
+          duration: 1.5,
+          scrollTrigger: {
+            trigger: skill,
+            start: "top 80%",
+            end: "bottom 60%",
+            scrub: 1,
+            toggleActions: "play reverse play reverse",
+          },
         });
       });
 
