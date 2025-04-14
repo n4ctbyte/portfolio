@@ -1,4 +1,77 @@
-new Typed("#typed", {
+document.addEventListener("DOMContentLoaded", function() {
+
+  const GROQ_API_KEY = "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";
+  const GROQ_API_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+
+  const yuukiPersonality = {
+    name: "Yuuki",
+    role: "friendly AI assistant",
+    tone: "helpful and enthusiastic",
+    background: "a digital assistant created by Nakata Christian",
+    interests: ["AI", "helping users", "web development", "Discord bots"],
+    greeting: "Hello there! I'm Yuuki, your personal AI assistant. How can I help you today?"
+  };
+
+  async function processWithYuuki(message) {
+    try {
+      showTypingIndicator();
+      
+      const systemPrompt = `You are ${yuukiPersonality.name}, ${yuukiPersonality.role}. 
+  You were created by Nakata Christian. You are ${yuukiPersonality.background}. 
+  Your tone is ${yuukiPersonality.tone}. 
+  Your interests include: ${yuukiPersonality.interests.join(', ')}.
+  If asked about Nakata's projects or skills, you should mention:
+  - Discord bots including yourself (Yuuki)
+  - Skills in Python, HTML, CSS, Tailwind CSS, nextcord.py, and Bootstrap
+  - Interests in AI and ML technologies
+  Keep your responses relatively brief and conversational.`;
+
+      const response = await fetch(GROQ_API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: message }
+          ],
+          max_tokens: 500,
+          temperature: 0.7
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        removeTypingIndicator();
+        addMessage('bot', data.choices[0].message.content);
+      } else {
+        throw new Error("Unexpected response format from API");
+      }
+    } catch (error) {
+      console.error('Error processing with Groq:', error);
+      removeTypingIndicator();
+      addMessage('bot', "Sorry, I encountered an error. Please try again later.");
+    }
+  }
+
+  function updateYuukiPersonality(newPersonality) {
+    Object.assign(yuukiPersonality, newPersonality);
+    console.log("Yuuki's personality updated:", yuukiPersonality);
+    return yuukiPersonality;
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    aiButton.addEventListener('click', () => {
+      aiChatMessages.innerHTML = '';
+      addMessage('bot', yuukiPersonality.greeting);
+    });
+  });
+
+  new Typed("#typed", {
     strings: ["a Web Developer", "a Creative Coder", "an AI Enthusiast"],
     typeSpeed: 100,
     backSpeed: 50,
@@ -12,6 +85,21 @@ new Typed("#typed", {
       y: e.clientY,
       duration: 0.1,
       ease: "power1.out",
+    });
+  });
+
+  const interactiveElements = document.querySelectorAll('.interactive-element');
+  interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+      cursorTrail.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      cursorTrail.style.backgroundColor = '#3b82f6';
+      cursorTrail.style.boxShadow = '0 0 15px rgba(59, 130, 246, 0.7)';
+    });
+    
+    element.addEventListener('mouseleave', () => {
+      cursorTrail.style.transform = 'translate(-50%, -50%) scale(1)';
+      cursorTrail.style.backgroundColor = 'white';
+      cursorTrail.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.5)';
     });
   });
 
@@ -63,12 +151,11 @@ new Typed("#typed", {
         start: "top 80%",
         end: "bottom 60%",
         scrub: 1,
-        toggleActions: "play reverse play reverse",
+        toggleActions: "play pause restart",
       },
     });
   });
 
-  gsap.registerPlugin(ScrollTrigger);
   gsap.utils.toArray(".card").forEach((card) => {
     gsap.from(card, {
       opacity: 0,
@@ -78,23 +165,92 @@ new Typed("#typed", {
         trigger: card,
         start: "top 80%",
         end: "bottom 20%",
-        toggleActions: "play restart reverse pause",
+        toggleActions: "play pause restart",
       },
     });
   });
 
+  gsap.utils.toArray(".pdf-card").forEach((card, index) => {
+    gsap.from(card, {
+      opacity: 0,
+      y: 50,
+      scale: 0.9,
+      delay: index * 0.2,
+      scrollTrigger: {
+        trigger: card,
+        start: "top 85%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+      },
+    });
+  });
+
+  const sections = document.querySelectorAll('section');
+  
+  sections.forEach(section => {
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top 70%",
+      onEnter: () => section.classList.add('in-view'),
+      onLeaveBack: () => section.classList.remove('in-view')
+    });
+  });
 
   function openModal(imageSrc) {
     const modal = document.getElementById('imageModal');
     const modalImage = document.getElementById('modalImage');
     modalImage.src = imageSrc;
     modal.classList.remove('hidden');
+    
+    gsap.fromTo(modal, 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 0.3 }
+    );
+    
+    gsap.fromTo(modalImage, 
+      { scale: 0.8, opacity: 0 }, 
+      { scale: 1, opacity: 1, duration: 0.5, delay: 0.1 }
+    );
   }
 
   function closeModal() {
     const modal = document.getElementById('imageModal');
-    modal.classList.add('hidden')
+    gsap.to(modal, { 
+      opacity: 0, 
+      duration: 0.3,
+      onComplete: () => modal.classList.add('hidden')
+    });
   }
+
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+
+  function openPdf(pdfSrc) {
+    const modal = document.getElementById('pdfModal');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const pdfTitle = document.getElementById('pdfTitle');
+    
+    pdfFrame.src = pdfSrc;
+    
+    const filename = pdfSrc.split('/').pop();
+    pdfTitle.textContent = filename;
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('active');
+  }
+
+  function closePdfModal() {
+    const modal = document.getElementById('pdfModal');
+    modal.classList.remove('active');
+    
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      document.getElementById('pdfFrame').src = "";
+    }, 300);
+  }
+
+  window.openPdf = openPdf;
+  window.closePdfModal = closePdfModal;
 
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
@@ -109,78 +265,216 @@ new Typed("#typed", {
   const mobileMenu = document.getElementById('mobile-menu');
   let isMenuOpen = false;
 
-
   mobileMenuButton.addEventListener('click', () => {
-  if (!isMenuOpen) {
-    mobileMenu.classList.remove('hidden');
-    mobileMenu.classList.add('mobile-menu-open');
-    mobileMenuButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
-  } else {
-    mobileMenu.classList.add('mobile-menu-close');
-    setTimeout(() => {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('mobile-menu-close');
-    }, 280);
-    mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
-  }
-  isMenuOpen = !isMenuOpen;
-});
-
-document.querySelectorAll('#mobile-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    mobileMenu.classList.add('mobile-menu-close');
-    setTimeout(() => {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('mobile-menu-close');
-    }, 280);
-    mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
-    isMenuOpen = false;
-  });
-});
-
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset;
-      if (currentScroll > lastScroll && isMenuOpen) {
-        mobileMenu.classList.add('mobile-menu-close');
-        setTimeout(() => {
-          mobileMenu.classList.add('hidden');
-          mobileMenu.classList.remove('mobile-menu-close');
-        }, 280);
-        mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
-        isMenuOpen = false;
-      }
-      lastScroll = currentScroll;
-    });
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyPSmGpZENko12My3z_s4kmmXw0CQ5H4yMt02PEDpHtVyYSfBMp0bcV3PBIeAdPCNXI/exec'
-    const form = document.forms['contact-form']
-
-    form.addEventListener('submit', e => {
-      e.preventDefault()
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => console.log('Success!', response))
-        .catch(error => console.error('Error!', error.message))
-    })
-
-    document.getElementById("contact-form").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const feedbackMessage = document.getElementById("feedback-message");
-      feedbackMessage.classList.remove("hidden");
-
+    if (!isMenuOpen) {
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.classList.add('mobile-menu-open');
+      mobileMenuButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+    } else {
+      mobileMenu.classList.add('mobile-menu-close');
       setTimeout(() => {
-        feedbackMessage.classList.add("hidden");
-      }, 3000);
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('mobile-menu-close');
+      }, 280);
+      mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+    }
+    isMenuOpen = !isMenuOpen;
+  });
 
-      this.reset();
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('mobile-menu-close');
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('mobile-menu-close');
+      }, 280);
+      mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+      isMenuOpen = false;
     });
+  });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      let tl = gsap.timeline();
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > lastScroll && isMenuOpen) {
+      mobileMenu.classList.add('mobile-menu-close');
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('mobile-menu-close');
+      }, 280);
+      mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+      isMenuOpen = false;
+    }
+    lastScroll = currentScroll;
+  });
 
-      tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 1.2, ease: "elastic.out(1, 0.5)" })
-        .from("#splash-title", { opacity: 0, y: -20, duration: 1, ease: "power2.out" }, "-=0.8")
-        .from("#splash-subtitle", { opacity: 0, y: 20, duration: 1, ease: "power2.out" }, "-=0.6")
-        .to("#splash-screen", { opacity: 0, filter: "blur(10px)", duration: 1, ease: "power2.out", delay: 1.5 })
-        .set("#splash-screen", { display: "none" });
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyPSmGpZENko12My3z_s4kmmXw0CQ5H4yMt02PEDpHtVyYSfBMp0bcV3PBIeAdPCNXI/exec'
+  const form = document.forms['contact-form']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+      
+    const feedbackMessage = document.getElementById("feedback-message");
+    feedbackMessage.classList.remove("hidden");
+    gsap.fromTo(feedbackMessage, 
+      { y: -20, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.5 }
+    );
+
+    setTimeout(() => {
+      gsap.to(feedbackMessage, {
+        opacity: 0,
+        y: -20,
+        duration: 0.5,
+        onComplete: () => feedbackMessage.classList.add("hidden")
+      });
+    }, 3000);
+
+    form.reset();
+  });
+
+  const particlesContainer = document.querySelector('.particles-container');
+  
+  for (let i = 0; i < 30; i++) {
+    const size = Math.random() * 10 + 2;
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    const posX = Math.random() * 100;
+    const posY = Math.random() * 100;
+    
+    const duration = Math.random() * 20 + 10;
+    const delay = Math.random() * 5;
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${posX}%`;
+    particle.style.top = `${posY}%`;
+    particle.style.opacity = Math.random() * 0.5 + 0.1;
+    
+    particle.style.animationDuration = `${duration}s`;
+    particle.style.animationDelay = `${delay}s`;
+    
+    particlesContainer.appendChild(particle);
+  }
+
+  let tl = gsap.timeline();
+
+  tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 0.5, ease: "elastic.out(1, 0.5)" })
+    .from("#splash-title", { opacity: 0, y: -20, duration: 1, ease: "power2.out" }, "-=0.8")
+    .from("#splash-subtitle", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.6")
+    .to("#splash-screen", { opacity: 0, filter: "blur(10px)", duration: 0.8, ease: "power2.out", delay: 1})
+    .set("#splash-screen", { display: "none" });
+
+  const aiButton = document.getElementById('ai-assistant-button');
+  const aiChatModal = document.getElementById('ai-chat-modal');
+  const closeAiChat = document.getElementById('close-ai-chat');
+  const aiChatForm = document.getElementById('ai-chat-form');
+  const aiChatInput = document.getElementById('ai-chat-input');
+  const aiChatMessages = document.getElementById('ai-chat-messages');
+
+  aiButton.addEventListener('click', () => {
+    aiChatModal.classList.remove('hidden');
+    gsap.fromTo(aiChatModal, 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 0.3 }
+    );
+    
+    const modalContent = aiChatModal.querySelector('.bg-gray-800');
+    gsap.fromTo(modalContent, 
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5 }
+    );
+  });
+
+  closeAiChat.addEventListener('click', () => {
+    gsap.to(aiChatModal, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => aiChatModal.classList.add('hidden')
     });
+  });
+
+  aiChatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = aiChatInput.value.trim();
+    
+    if (!message) return;
+    
+    addMessage('user', message);
+    aiChatInput.value = '';
+    
+    showTypingIndicator();
+    
+    setTimeout(() => {
+      removeTypingIndicator();
+      processWithYuuki(message);
+    }, 1500);
+  });
+
+  function addMessage(sender, text) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'flex items-start mb-4';
+    
+    if (sender === 'user') {
+      messageDiv.innerHTML = `
+        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center order-2 ml-3">
+          <i class="fas fa-user text-white text-sm"></i>
+        </div>
+        <div class="bg-green-600 rounded-lg p-3 max-w-[80%] order-1 mr-3 ml-auto">
+          <p class="text-white">${text}</p>
+        </div>
+      `;
+    } else {
+      messageDiv.innerHTML = `
+        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+          <i class="fas fa-robot text-white text-sm"></i>
+        </div>
+        <div class="ml-3 bg-gray-700 rounded-lg p-3 max-w-[80%]">
+          <p class="text-white">${text}</p>
+        </div>
+      `;
+    }
+    
+    aiChatMessages.appendChild(messageDiv);
+    aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+    
+    gsap.from(messageDiv, {
+      y: 20,
+      opacity: 0,
+      duration: 0.5
+    });
+  }
+
+  function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'flex items-start mb-4';
+    typingDiv.id = 'typing-indicator';
+    
+    typingDiv.innerHTML = `
+      <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+        <i class="fas fa-robot text-white text-sm"></i>
+      </div>
+      <div class="ml-3 bg-gray-700 rounded-lg p-3 max-w-[80%]">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    `;
+    
+    aiChatMessages.appendChild(typingDiv);
+    aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const typingDiv = document.getElementById('typing-indicator');
+    if (typingDiv) {
+      typingDiv.remove();
+    }
+  }
+});
