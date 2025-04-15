@@ -361,13 +361,24 @@ document.addEventListener("DOMContentLoaded", function() {
     particlesContainer.appendChild(particle);
   }
 
-  let tl = gsap.timeline();
+  // In your script.js file, modify the splash screen timeline:
+let tl = gsap.timeline();
 
-  tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 0.5, ease: "elastic.out(1, 0.5)" })
-    .from("#splash-title", { opacity: 0, y: -20, duration: 1, ease: "power2.out" }, "-=0.8")
-    .from("#splash-subtitle", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.6")
-    .to("#splash-screen", { opacity: 0, filter: "blur(10px)", duration: 0.8, ease: "power2.out", delay: 1})
-    .set("#splash-screen", { display: "none" });
+tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 0.5, ease: "elastic.out(1, 0.5)" })
+  .from("#splash-title", { opacity: 0, y: -20, duration: 1, ease: "power2.out" }, "-=0.8")
+  .from("#splash-subtitle", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.6")
+  .to("#splash-screen", { 
+    opacity: 0, 
+    filter: "blur(10px)", 
+    duration: 0.8, 
+    ease: "power2.out", 
+    delay: 1,
+    onComplete: function() {
+      document.getElementById('splash-screen').style.display = 'none';
+      // Start the game here
+      gameLoop();
+    }
+  });
 
   const aiButton = document.getElementById('ai-assistant-button');
   const aiChatModal = document.getElementById('ai-chat-modal');
@@ -477,4 +488,47 @@ document.addEventListener("DOMContentLoaded", function() {
       typingDiv.remove();
     }
   }
+
+  const skillLogos = {
+    'Python': 'img/python.png',
+    'HTML': 'img/html.png',
+    'CSS': 'img/css.png',
+    'Tailwind CSS': 'img/tailwind.png',
+    'nextcord.py': 'img/nextcord.png',
+    'Bootstrap': 'img/bootstrap.png'
+  };
+
+  const skillCursor = document.createElement('div');
+  skillCursor.id = 'skill-cursor';
+  skillCursor.className = 'skill-cursor hidden';
+  document.body.appendChild(skillCursor);
+
+  document.querySelectorAll('.skill-tag').forEach(skill => {
+    const skillName = skill.textContent.trim();
+    
+    skill.setAttribute('data-skill', skillName);
+    
+    skill.addEventListener('mouseenter', () => {
+      cursorTrail.classList.add('hidden');
+      
+      skillCursor.classList.remove('hidden');
+      
+      if (skillLogos[skillName]) {
+        skillCursor.style.backgroundImage = `url(${skillLogos[skillName]})`;
+      }
+    });
+    
+    skill.addEventListener('mouseleave', () => {
+      cursorTrail.classList.remove('hidden');
+      
+      skillCursor.classList.add('hidden');
+    });
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!skillCursor.classList.contains('hidden')) {
+      skillCursor.style.left = `${e.clientX}px`;
+      skillCursor.style.top = `${e.clientY}px`;
+    }
+  });
 });
