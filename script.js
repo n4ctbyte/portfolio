@@ -361,7 +361,6 @@ document.addEventListener("DOMContentLoaded", function() {
     particlesContainer.appendChild(particle);
   }
 
-  // In your script.js file, modify the splash screen timeline:
 let tl = gsap.timeline();
 
 tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 0.5, ease: "elastic.out(1, 0.5)" })
@@ -375,10 +374,89 @@ tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 0.5, ease: "ela
     delay: 1,
     onComplete: function() {
       document.getElementById('splash-screen').style.display = 'none';
-      // Start the game here
-      gameLoop();
+      showYuukiAnnouncement();
     }
   });
+
+  function showYuukiAnnouncement() {
+    const announcement = document.createElement('div');
+    announcement.id = 'yuuki-announcement';
+    announcement.className = 'fixed z-50 border border-blue-500 shadow-xl';
+    if (window.innerWidth < 768) {
+      announcement.classList.add('bottom-20', 'right-4', 'left-4', 'max-w-full');
+    } else {
+      announcement.classList.add('top-24', 'right-8', 'max-w-md');
+    }
+    announcement.classList.add('bg-gray-800', 'p-5', 'rounded-lg');
+    announcement.innerHTML = `
+      <div class="flex items-center mb-3">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center mr-3">
+          <i class="fas fa-robot text-white text-lg"></i>
+        </div>
+        <h3 class="text-xl font-bold text-blue-400">Yuuki</h3>
+      </div>
+      <p class="text-white mb-4">Welcome to Nakata Christian's portfolio! I'm Yuuki, your personal AI assistant. If you have any questions or just want to chat, I'm here to help!</p>
+      <button id="close-announcement" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full w-full transition-all">Got it!</button>
+    `;
+    document.body.appendChild(announcement);
+    if (window.innerWidth < 768) {
+      gsap.from(announcement, {
+        y: 100,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+    } else {
+      gsap.from(announcement, {
+        x: 100,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+    }
+  
+    document.getElementById('close-announcement').addEventListener('click', () => {
+      if (window.innerWidth < 768) {
+        gsap.to(announcement, {
+          y: 100,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.in",
+          onComplete: () => announcement.remove()
+        });
+      } else {
+        gsap.to(announcement, {
+          x: 100,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.in",
+          onComplete: () => announcement.remove()
+        });
+      }
+    });
+    
+    setTimeout(() => {
+      if (document.getElementById('yuuki-announcement')) {
+        if (window.innerWidth < 768) {
+          gsap.to(announcement, {
+            y: 100,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.in",
+            onComplete: () => announcement.remove()
+          });
+        } else {
+          gsap.to(announcement, {
+            x: 100,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power2.in",
+            onComplete: () => announcement.remove()
+          });
+        }
+      }
+    }, 8000);
+  }
 
   const aiButton = document.getElementById('ai-assistant-button');
   const aiChatModal = document.getElementById('ai-chat-modal');
