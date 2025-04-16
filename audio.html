@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Format Audio - Nakata Christian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+      .card {
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        background: linear-gradient(to bottom right, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.9));
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+
+      .format-card {
+        perspective: 1000px;
+        transition: all 0.6s ease;
+        background: linear-gradient(145deg, rgba(55, 65, 81, 1) 0%, rgba(31, 41, 55, 1) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .format-card:hover {
+        transform: rotateY(5deg) scale(1.05);
+        box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
+      }
+
+      .nav-link-hover::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #3b82f6;
+        transition: width 0.3s;
+      }
+
+      .nav-link-hover:hover::after {
+        width: 100%;
+      }
+      
+      .audio-player {
+        width: 100%;
+        background: rgba(17, 24, 39, 0.8);
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      
+      .progress-container {
+        width: 100%;
+        height: 8px;
+        background: rgba(31, 41, 55, 0.6);
+        border-radius: 5px;
+        margin: 10px 0;
+        cursor: pointer;
+        position: relative;
+      }
+      
+      .progress-bar {
+        height: 8px;
+        border-radius: 5px;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+      
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .mp3-progress { background: #3b82f6; }
+      .wav-progress { background: #10b981; }
+      .aac-progress { background: #eab308; }
+      .flac-progress { background: #ef4444; }
+      .aiff-progress { background: #6366f1; }
+      .ogg-progress { background: #8b5cf6; }
+      .alac-progress { background: #22c55e; }
+      .pcm-progress { background: #3b82f6; }
+      .wma-progress { background: #ef4444; }
+      .opus-progress { background: #8b5cf6; }
+      
+      .play-pause {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: white;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+      
+      .play-pause:hover {
+        background: rgba(59, 130, 246, 0.2);
+      }
+      
+      .time {
+        font-size: 0.8rem;
+        color: #d1d5db;
+      }
+      
+      .volume-container {
+        display: flex;
+        align-items: center;
+        width: 100px;
+      }
+      
+      .volume-slider {
+        width: 80px;
+        height: 5px;
+        -webkit-appearance: none;
+        background: rgba(31, 41, 55, 0.6);
+        border-radius: 5px;
+        margin-left: 10px;
+      }
+      
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
+      <div class="container mx-auto px-6 py-3">
+        <div class="flex justify-between items-center">
+          <a href="index.html" class="text-2xl font-bold text-blue-400">Nakata Christian</a>
+          
+          <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-blue-400 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+    
+          <div class="hidden md:flex items-center space-x-6">
+            <div class="space-x-4">
+              <a href="gambar.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Gambar</a>
+              <a href="video.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Video</a>
+              <a href="audio.html" class="text-blue-400 hover:text-blue-500 transition duration-300 relative nav-link-hover">Audio</a>
+              <a href="animasi.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Animasi</a>
+              <a href="font.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Font</a>
+              <a href="index.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Beranda</a>
+            </div>
+          </div>
+        </div>
+    
+        <div id="mobile-menu" class="hidden md:hidden">
+          <div class="flex flex-col space-y-4 mt-4 pb-4">
+            <a href="gambar.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Gambar</a>
+            <a href="video.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Video</a>
+            <a href="audio.html" class="text-blue-400 hover:text-blue-500 transition duration-300">Audio</a>
+            <a href="animasi.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Animasi</a>
+            <a href="font.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Font</a>
+            <a href="index.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Beranda</a>
+          </div>
+        </div>
+      </div>
+    </nav>    
+
+    <header class="pt-24 pb-12 bg-gray-800">
+      <div class="container mx-auto text-center px-4">
+        <h1 class="text-4xl font-bold mb-4 text-white">Format <span class="text-blue-400">Audio</span></h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Berikut adalah 10 format audio populer yang umum digunakan dalam produksi musik, podcast, dan pengembangan web. Dengarkan contoh audio pada setiap format.</p>
+      </div>
+    </header>
+
+    <!-- MP3 -->
+    <main class="py-12 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-blue-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.MP3</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-music text-6xl text-blue-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">MPEG Audio Layer III</h3>
+              <p class="text-gray-300 mb-4">Format audio yang paling umum digunakan dengan kompresi lossy yang menawarkan keseimbangan ukuran file kecil dan kualitas suara baik.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kompatibilitas universal, ukuran file efisien</p>
+                <p><strong>Kekurangan:</strong> Kehilangan kualitas audio karena kompresi</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="mp3-audio" src="img/AUDIO/Love's Sorrow mp3.mp3"></audio>
+                <div class="progress-container" id="mp3-progress-container">
+                  <div class="progress-bar mp3-progress" id="mp3-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="mp3-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="mp3-current-time">0:00</span> / <span id="mp3-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="mp3-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WAV -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-green-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.WAV</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-waveform text-6xl text-green-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Waveform Audio File Format</h3>
+              <p class="text-gray-300 mb-4">Format audio tidak terkompresi dengan kualitas tinggi, digunakan dalam produksi musik profesional dan rekaman.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kualitas audio tanpa kompresi, presisi tinggi</p>
+                <p><strong>Kekurangan:</strong> Ukuran file sangat besar</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="wav-audio" src="img/AUDIO/Love's Sorrow wav.wav"></audio>
+                <div class="progress-container" id="wav-progress-container">
+                  <div class="progress-bar wav-progress" id="wav-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="wav-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="wav-current-time">0:00</span> / <span id="wav-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="wav-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AAC -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-yellow-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.AAC</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-file-audio text-6xl text-yellow-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Advanced Audio Coding</h3>
+              <p class="text-gray-300 mb-4">Format kompresi audio yang lebih efisien dari MP3, sering digunakan oleh iTunes dan perangkat Apple.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kualitas audio lebih baik dari MP3 pada bitrate yang sama</p>
+                <p><strong>Kekurangan:</strong> Kompatibilitas lebih terbatas dibandingkan MP3</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="aac-audio" src="img/AUDIO/Love's Sorrow aac.aac"></audio>
+                <div class="progress-container" id="aac-progress-container">
+                  <div class="progress-bar aac-progress" id="aac-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="aac-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="aac-current-time">0:00</span> / <span id="aac-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="aac-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FLAC -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-red-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.FLAC</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-compact-disc text-6xl text-red-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Free Lossless Audio Codec</h3>
+              <p class="text-gray-300 mb-4">Format audio lossless yang menawarkan kompresi tanpa kehilangan kualitas, populer di kalangan audiofil.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kualitas audio tanpa rugi, ukuran file lebih kecil dari WAV</p>
+                <p><strong>Kekurangan:</strong> Tetap memiliki ukuran file yang besar</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="flac-audio" src="img/AUDIO/Love's Sorrow flac.flac"></audio>
+                <div class="progress-container" id="flac-progress-container">
+                  <div class="progress-bar flac-progress" id="flac-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="flac-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="flac-current-time">0:00</span> / <span id="flac-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="flac-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AIFF -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-indigo-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.AIFF</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-record-vinyl text-6xl text-indigo-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Audio Interchange File Format</h3>
+              <p class="text-gray-300 mb-4">Format audio tidak terkompresi yang dikembangkan oleh Apple, mirip dengan WAV dengan kualitas audio sangat tinggi.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kualitas audio sangat tinggi, dukungan metadata lebih baik</p>
+                <p><strong>Kekurangan:</strong> Ukuran file sangat besar</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="aiff-audio" src="img/AUDIO/Love's Sorrow.aiff"></audio>
+                <div class="progress-container" id="aiff-progress-container">
+                  <div class="progress-bar aiff-progress" id="aiff-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="aiff-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="aiff-current-time">0:00</span> / <span id="aiff-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="aiff-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OGG -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-purple-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.OGG</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-headphones text-6xl text-purple-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Ogg Vorbis</h3>
+              <p class="text-gray-300 mb-4">Format audio open source dan bebas royalti yang menawarkan kompresi efisien, alternatif untuk MP3.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Open source, kualitas audio baik pada bitrate rendah</p>
+                <p><strong>Kekurangan:</strong> Kompatibilitas lebih terbatas</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="ogg-audio" src="img/AUDIO/Love's Sorrow ogg.ogg"></audio>
+                <div class="progress-container" id="ogg-progress-container">
+                  <div class="progress-bar ogg-progress" id="ogg-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="ogg-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="ogg-current-time">0:00</span> / <span id="ogg-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="ogg-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ALAC -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-green-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.ALAC</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fab fa-apple text-6xl text-green-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Apple Lossless Audio Codec</h3>
+              <p class="text-gray-300 mb-4">Format audio lossless yang dikembangkan oleh Apple, menawarkan kompresi tanpa kehilangan kualitas untuk ekosistem Apple.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kualitas lossless, integrasi baik dengan perangkat Apple</p>
+                <p><strong>Kekurangan:</strong> Kompatibilitas terbatas di luar ekosistem Apple</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="alac-audio" src="img/AUDIO/Love's Sorrow alac.m4a"></audio>
+                <div class="progress-container" id="alac-progress-container">
+                  <div class="progress-bar alac-progress" id="alac-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="alac-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="alac-current-time">0:00</span> / <span id="alac-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="alac-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PCM -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-blue-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.PCM</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-wave-square text-6xl text-blue-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Pulse-Code Modulation</h3>
+              <p class="text-gray-300 mb-4">Format audio digital mentah yang merupakan dasar dari format audio digital lainnya seperti WAV dan AIFF, tanpa kompresi.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Kualitas audio sangat presisi, standar industri</p>
+                <p><strong>Kekurangan:</strong> Ukuran file sangat besar, biasanya disimpan dalam kontainer lain</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="pcm-audio" src="img/AUDIO/Love's Sorrow.pcm"></audio>
+                <div class="progress-container" id="pcm-progress-container">
+                  <div class="progress-bar pcm-progress" id="pcm-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="pcm-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="pcm-current-time">0:00</span> / <span id="pcm-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="pcm-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WMA -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-red-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.WMA</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fab fa-windows text-6xl text-red-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Windows Media Audio</h3>
+              <p class="text-gray-300 mb-4">Format audio yang dikembangkan oleh Microsoft sebagai alternatif untuk MP3, dengan pilihan lossy dan lossless.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Integrasi baik dengan produk Microsoft, DRM</p>
+                <p><strong>Kekurangan:</strong> Kompatibilitas terbatas di luar ekosistem Windows</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="wma-audio" src="img/AUDIO/Love's Sorrow wma.wma"></audio>
+                <div class="progress-container" id="wma-progress-container">
+                  <div class="progress-bar wma-progress" id="wma-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="wma-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="wma-current-time">0:00</span> / <span id="wma-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="wma-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPUS -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-purple-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.OPUS</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-microphone-alt text-6xl text-purple-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Opus Audio Format</h3>
+              <p class="text-gray-300 mb-4">Format audio open source modern yang menawarkan kompresi efisien dan latensi rendah, ideal untuk streaming dan komunikasi realtime.</p>
+              <div class="text-sm text-gray-400 mb-4">
+                <p><strong>Kelebihan:</strong> Performa kompresi superior, latensi rendah</p>
+                <p><strong>Kekurangan:</strong> Dukungan perangkat keras masih terbatas</p>
+              </div>
+              
+              <!-- Audio Player -->
+              <div class="audio-player">
+                <audio id="opus-audio" src="img/AUDIO/Love's Sorrow opus.opus"></audio>
+                <div class="progress-container" id="opus-progress-container">
+                  <div class="progress-bar opus-progress" id="opus-progress"></div>
+                </div>
+                <div class="controls">
+                  <button class="play-pause" id="opus-play-pause">
+                    <i class="fas fa-play"></i>
+                  </button>
+                  <div class="time">
+                    <span id="opus-current-time">0:00</span> / <span id="opus-duration">0:00</span>
+                  </div>
+                  <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" class="volume-slider" id="opus-volume" min="0" max="1" step="0.1" value="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+      });
+    
+      const formats = ['mp3', 'wav', 'aac', 'flac', 'aiff', 'ogg', 'alac', 'pcm', 'wma', 'opus'];
+      
+      formats.forEach(format => {
+        const audio = document.getElementById(`${format}-audio`);
+        const progressContainer = document.getElementById(`${format}-progress-container`);
+        const progress = document.getElementById(`${format}-progress`);
+        const playPauseBtn = document.getElementById(`${format}-play-pause`);
+        const currentTimeEl = document.getElementById(`${format}-current-time`);
+        const durationEl = document.getElementById(`${format}-duration`);
+        const volumeSlider = document.getElementById(`${format}-volume`);
+        
+        function formatTime(seconds) {
+          const minutes = Math.floor(seconds / 60);
+          seconds = Math.floor(seconds % 60);
+          return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+        
+        function updateProgress() {
+          if (audio.duration) {
+            const percentage = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = `${percentage}%`;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+          }
+        }
+        
+        audio.addEventListener('loadedmetadata', () => {
+          durationEl.textContent = formatTime(audio.duration);
+        });
+        
+        playPauseBtn.addEventListener('click', () => {
+          if (audio.paused) {
+            formats.forEach(f => {
+              if (f !== format) {
+                const otherAudio = document.getElementById(`${f}-audio`);
+                const otherBtn = document.getElementById(`${f}-play-pause`);
+                otherAudio.pause();
+                otherBtn.innerHTML = '<i class="fas fa-play"></i>';
+              }
+            });
+            
+            audio.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+          } else {
+            audio.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+          }
+        });
+        
+        audio.addEventListener('timeupdate', updateProgress);
+        
+        progressContainer.addEventListener('click', (e) => {
+          const clickPosition = e.offsetX / progressContainer.offsetWidth;
+          audio.currentTime = clickPosition * audio.duration;
+        });
+        
+        volumeSlider.addEventListener('input', () => {
+          audio.volume = volumeSlider.value;
+        });
+        
+        audio.addEventListener('ended', () => {
+          audio.currentTime = 0;
+          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+          progress.style.width = '0%';
+        });
+      });
+    </script>
+  </body>
+</html>

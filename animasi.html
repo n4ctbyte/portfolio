@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Format Video - Nakata Christian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+      .card {
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        background: linear-gradient(to bottom right, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.9));
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+
+      .format-card {
+        perspective: 1000px;
+        transition: all 0.6s ease;
+        background: linear-gradient(145deg, rgba(55, 65, 81, 1) 0%, rgba(31, 41, 55, 1) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .format-card:hover {
+        transform: rotateY(5deg) scale(1.05);
+        box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
+      }
+
+      .nav-link-hover::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: #3b82f6;
+        transition: width 0.3s;
+      }
+
+      .nav-link-hover:hover::after {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <!-- Navbar Start -->
+    <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
+      <div class="container mx-auto px-6 py-3">
+        <div class="flex justify-between items-center">
+          <a href="index.html" class="text-2xl font-bold text-blue-400">Nakata Christian</a>
+          
+          <!-- Mobile menu button -->
+          <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-blue-400 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+    
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-6">
+            <div class="space-x-4">
+              <a href="gambar.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Gambar</a>
+              <a href="video.html" class="text-blue-400 hover:text-blue-500 transition duration-300 relative nav-link-hover">Video</a>
+              <a href="audio.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Audio</a>
+              <a href="animasi.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Animasi</a>
+              <a href="font.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Font</a>
+              <a href="index.html" class="text-gray-300 hover:text-blue-400 transition duration-300 relative nav-link-hover">Beranda</a>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden">
+          <div class="flex flex-col space-y-4 mt-4 pb-4">
+            <a href="gambar.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Gambar</a>
+            <a href="video.html" class="text-blue-400 hover:text-blue-500 transition duration-300">Video</a>
+            <a href="audio.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Audio</a>
+            <a href="animasi.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Animasi</a>
+            <a href="font.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Font</a>
+            <a href="index.html" class="text-gray-300 hover:text-blue-400 transition duration-300">Beranda</a>
+          </div>
+        </div>
+      </div>
+    </nav>    
+    <!-- Navbar End -->
+
+    <!-- Header -->
+    <header class="pt-24 pb-12 bg-gray-800">
+      <div class="container mx-auto text-center px-4">
+        <h1 class="text-4xl font-bold mb-4 text-white">Format <span class="text-blue-400">Video</span></h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Berikut adalah 10 format video populer yang umum digunakan dalam produksi video, streaming, dan pengembangan web.</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-12 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- MP4 -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-blue-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.MP4</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-file-video text-6xl text-blue-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">MPEG-4 Part 14</h3>
+              <p class="text-gray-300 mb-4">Format container video yang sangat populer, mendukung berbagai codec termasuk H.264, H.265, dan AAC. Standar industri untuk distribusi video digital.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Kompatibilitas universal, kualitas baik dengan ukuran file kecil</p>
+                <p><strong>Kekurangan:</strong> Beberapa fitur terbatas dibandingkan format lain</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- MKV -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-green-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.MKV</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-film text-6xl text-green-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Matroska Video</h3>
+              <p class="text-gray-300 mb-4">Format container open source yang mendukung hampir semua codec video dan audio. Sangat fleksibel dengan dukungan fitur lanjutan.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Mendukung subtitle, chapter, dan banyak track audio</p>
+                <p><strong>Kekurangan:</strong> Kompatibilitas terbatas dengan perangkat seluler dan browser</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- AVI -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-yellow-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.AVI</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-play-circle text-6xl text-yellow-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Audio Video Interleave</h3>
+              <p class="text-gray-300 mb-4">Format container yang dikembangkan oleh Microsoft. Salah satu format tertua dan masih digunakan untuk kompatibilitas.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Kompatibilitas tinggi dengan aplikasi lama</p>
+                <p><strong>Kekurangan:</strong> Efisiensi kompresi lebih rendah, kurang mendukung fitur modern</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- MOV -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-red-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.MOV</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fab fa-apple text-6xl text-red-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">QuickTime Movie</h3>
+              <p class="text-gray-300 mb-4">Format container yang dikembangkan oleh Apple untuk QuickTime Player. Populer dalam industri kreatif dan produksi video.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Kualitas tinggi, dukungan metadata yang kaya</p>
+                <p><strong>Kekurangan:</strong> Ukuran file besar, kompatibilitas terbatas di luar ekosistem Apple</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- WebM -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-purple-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.WebM</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fab fa-chrome text-6xl text-purple-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Web Media Format</h3>
+              <p class="text-gray-300 mb-4">Format video open source yang dikembangkan oleh Google khusus untuk web. Menggunakan codec VP8/VP9 untuk video dan Vorbis/Opus untuk audio.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Kompresi efisien, open source, dioptimalkan untuk web</p>
+                <p><strong>Kekurangan:</strong> Dukungan terbatas di perangkat lama dan beberapa browser</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FLV -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-indigo-600 px-4 py-2">
+              <h2 class="text-xl font-bold">.FLV</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fab fa-youtube text-6xl text-indigo-400"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Flash Video</h3>
+              <p class="text-gray-300 mb-4">Format video yang awalnya dikembangkan untuk Adobe Flash Player. Pernah mendominasi streaming video online.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Ukuran file kecil, streaming yang efisien</p>
+                <p><strong>Kekurangan:</strong> Sudah usang, tidak didukung oleh banyak platform modern</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- WMV -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-blue-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.WMV</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fab fa-windows text-6xl text-blue-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Windows Media Video</h3>
+              <p class="text-gray-300 mb-4">Format yang dikembangkan oleh Microsoft dan terintegrasi dengan ekosistem Windows. Mendukung DRM untuk konten berhak cipta.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Integrasi dengan Windows, kompresi efisien</p>
+                <p><strong>Kekurangan:</strong> Kompatibilitas terbatas di platform non-Windows</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- AVCHD -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-green-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.AVCHD</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-video text-6xl text-green-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Advanced Video Coding High Definition</h3>
+              <p class="text-gray-300 mb-4">Format video yang dikembangkan untuk kamera video HD. Menggunakan kompresi H.264 untuk video berkualitas tinggi.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Kualitas video HD, kompatibel dengan banyak perangkat pemutar</p>
+                <p><strong>Kekurangan:</strong> Membutuhkan daya pemrosesan tinggi</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TS -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-red-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.TS</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-broadcast-tower text-6xl text-red-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Transport Stream</h3>
+              <p class="text-gray-300 mb-4">Format container yang digunakan untuk siaran digital dan streaming. Dirancang untuk menangani jaringan yang tidak stabil.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Ideal untuk streaming, toleran terhadap kesalahan transmisi</p>
+                <p><strong>Kekurangan:</strong> Ukuran file besar, kurang efisien untuk penyimpanan</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- M2TS -->
+          <div class="format-card rounded-lg overflow-hidden">
+            <div class="bg-purple-700 px-4 py-2">
+              <h2 class="text-xl font-bold">.M2TS</h2>
+            </div>
+            <div class="p-6">
+              <div class="w-full h-48 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                <i class="fas fa-compact-disc text-6xl text-purple-300"></i>
+              </div>
+              <h3 class="text-lg font-semibold mb-2">MPEG-2 Transport Stream</h3>
+              <p class="text-gray-300 mb-4">Format container yang digunakan di Blu-ray dan AVCHD. Dukungan untuk video HD dan audio surround.</p>
+              <div class="text-sm text-gray-400">
+                <p><strong>Kelebihan:</strong> Kualitas sangat tinggi, mendukung banyak track audio</p>
+                <p><strong>Kekurangan:</strong> Ukuran file besar, kurang cocok untuk distribusi online</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 text-center">
+      <div class="container mx-auto">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="https://github.com/n4ctbyte" target="_blank" class="text-gray-400 hover:text-white">
+            <i class="fab fa-github text-2xl"></i>
+          </a>
+          <a href="https://instagram.com/nakata_chr" target="_blank" class="text-gray-400 hover:text-white">
+            <i class="fab fa-instagram text-2xl"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/nakata-christian-31ba31335/" target="_blank" class="text-gray-400 hover:text-white">
+            <i class="fab fa-linkedin text-2xl"></i>
+          </a>
+        </div>
+        <p class="text-gray-400">© 2025 Nakata Christian - Digital Creator</p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>
