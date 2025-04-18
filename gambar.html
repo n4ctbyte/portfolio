@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Format Gambar - Nakata Christian</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
       .card {
@@ -104,6 +105,10 @@
         from {opacity: 0}
         to {opacity: 1}
       }
+
+      body {
+        cursor: auto;
+      }
     </style>
   </head>
   <body class="bg-gray-900 text-white">
@@ -111,7 +116,7 @@
     <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
       <div class="container mx-auto px-6 py-3">
         <div class="flex justify-between items-center">
-          <a href="index.html" class="text-2xl font-bold text-blue-400">Nakata Christian</a>
+          <a href="index.html" class="text-2xl font-bold text-blue-400 interactive-element">Nakata Christian</a>
           
           <!-- Mobile menu button -->
           <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-blue-400 focus:outline-none">
@@ -149,8 +154,8 @@
     <!-- Header -->
     <header class="pt-24 pb-12 bg-gray-800">
       <div class="container mx-auto text-center px-4">
-        <h1 class="text-4xl font-bold mb-4 text-white">Format <span class="text-blue-400">Gambar</span></h1>
-        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Berikut adalah 10 format gambar populer yang umum digunakan dalam desain dan pengembangan web.</p>
+        <h1 class="text-4xl font-bold mb-4 text-white floating-element">Format <span class="text-blue-400">Gambar</span></h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto floating-element">Berikut adalah 10 format gambar populer yang umum digunakan dalam desain dan pengembangan web.</p>
       </div>
     </header>
 
@@ -335,19 +340,20 @@
     <footer class="bg-gray-800 py-8 text-center">
       <div class="container mx-auto">
         <div class="flex justify-center space-x-6 mb-4">
-          <a href="https://github.com/n4ctbyte" target="_blank" class="text-gray-400 hover:text-white">
+          <a href="https://github.com/n4ctbyte" target="_blank" class="social-icon github">
             <i class="fab fa-github text-2xl"></i>
           </a>
-          <a href="https://instagram.com/nakata_chr" target="_blank" class="text-gray-400 hover:text-white">
+          <a href="https://instagram.com/nakata_chr" target="_blank" class="social-icon instagram">
             <i class="fab fa-instagram text-2xl"></i>
           </a>
-          <a href="https://www.linkedin.com/in/nakata-christian-31ba31335/" target="_blank" class="text-gray-400 hover:text-white">
+          <a href="https://www.linkedin.com/in/nakata-christian-31ba31335/" target="_blank" class="social-icon linkedin">
             <i class="fab fa-linkedin text-2xl"></i>
           </a>
         </div>
         <p class="text-gray-400">© 2025 Nakata Christian - Digital Creator</p>
       </div>
     </footer>
+    <!-- Footer End -->
 
     <script>
       const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -379,6 +385,35 @@
           modal.style.display = "none";
         }
       }
+
+      const cards = document.querySelectorAll('.format-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect(); 
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const deltaX = (x - centerX) / 20;
+          const deltaY = (y - centerY) / 20;
+          
+          card.style.transform = `translateY(-10px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = '';
+          setTimeout(() => {
+            card.style.transition = 'transform 0.3s ease';
+          }, 100);
+        });
+        
+        card.addEventListener('mouseenter', function() {
+          card.style.transition = 'transform 0.1s ease';
+        });
+      });
     </script>
   </body>
 </html>

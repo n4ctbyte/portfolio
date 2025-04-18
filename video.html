@@ -5,8 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Format Video - Nakata Christian</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
+
+      body {
+        cursor: auto;
+      }
+
+      .wrapper {
+        perspective: 1000px;
+        display: block;
+      }
       .card {
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border: 1px solid rgba(59, 130, 246, 0.1);
@@ -18,18 +29,6 @@
         transform: translateY(-10px);
         box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
         border: 1px solid rgba(59, 130, 246, 0.3);
-      }
-
-      .format-card {
-        perspective: 1000px;
-        transition: all 0.6s ease;
-        background: linear-gradient(145deg, rgba(55, 65, 81, 1) 0%, rgba(31, 41, 55, 1) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-      }
-
-      .format-card:hover {
-        transform: rotateY(5deg) scale(1.05);
-        box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
       }
 
       .nav-link-hover::after {
@@ -46,76 +45,6 @@
       .nav-link-hover:hover::after {
         width: 100%;
       }
-      
-      .custom-video-player {
-        position: relative;
-        overflow: hidden;
-        border-radius: 0.5rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      }
-      
-      .video-controls {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        padding: 20px 15px 10px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      
-      .custom-video-player:hover .video-controls {
-        opacity: 1;
-      }
-      
-      .progress-container {
-        height: 5px;
-        background-color: rgba(255, 255, 255, 0.2);
-        cursor: pointer;
-        border-radius: 5px;
-        margin-bottom: 10px;
-      }
-      
-      .progress-bar {
-        height: 100%;
-        background-color: #3b82f6;
-        border-radius: 5px;
-        width: 0%;
-        transition: width 0.1s linear;
-      }
-      
-      .control-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      
-      .time-display {
-        font-size: 14px;
-        color: white;
-      }
-      
-      .play-pause-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background-color: rgba(59, 130, 246, 0.7);
-        transition: all 0.3s ease;
-      }
-      
-      .play-pause-btn:hover {
-        background-color: rgba(59, 130, 246, 1);
-        transform: scale(1.1);
-      }
     </style>
   </head>
   <body class="bg-gray-900 text-white">
@@ -123,7 +52,7 @@
     <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
       <div class="container mx-auto px-6 py-3">
         <div class="flex justify-between items-center">
-          <a href="index.html" class="text-2xl font-bold text-blue-400">Nakata Christian</a>
+          <a href="index.html" class="text-2xl font-bold text-blue-400 interactive-element">Nakata Christian</a>
           
           <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-blue-400 focus:outline-none">
             <i class="fas fa-bars text-2xl"></i>
@@ -157,7 +86,7 @@
 
     <!-- Header -->
     <header class="pt-24 pb-12 bg-gray-800">
-      <div class="container mx-auto text-center px-4">
+      <div class="container mx-auto text-center px-4 floating-element">
         <h1 class="text-4xl font-bold mb-4 text-white">Format <span class="text-blue-400">Video</span></h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">Berikut adalah 10 format video populer yang umum digunakan dalam produksi video, streaming, dan pengembangan web.</p>
       </div>
@@ -169,27 +98,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           
           <!-- MPEG-2 -->
-          <div class="format-card rounded-lg overflow-hidden">
+          <div class="rounded-lg overflow-hidden format-card">
             <div class="bg-blue-600 px-4 py-2">
               <h2 class="text-xl font-bold">MPEG-2</h2>
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="mpeg2-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="mpeg2-video">
                   <source src="img/VIDEO/Pocket Sage mpeg2.mpg" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">Moving Picture Experts Group 2</h3>
               <p class="text-gray-300 mb-4">Format standar kompresi untuk video digital berkualitas tinggi. Digunakan dalam DVD, transmisi TV digital, dan HDTV.</p>
@@ -207,21 +125,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="mpeg4part2-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="mpeg4part2-video">
                   <source src="img/VIDEO/Pocket Sage mpeg 4.mp4" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">Visual Advanced Simple Profile</h3>
               <p class="text-gray-300 mb-4">Codec video populer sebelum H.264. Dikenal dengan implementasi seperti DivX dan Xvid yang umum digunakan untuk kompresi video.</p>
@@ -239,21 +146,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="h264-video">
+                <video class="format-video w-full rounded" controls autoplay loop muted id="h264-video">
                   <source src="img/VIDEO/Pocket Sage avc.avi" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">Advanced Video Coding (AVC)</h3>
               <p class="text-gray-300 mb-4">Salah satu codec video paling populer yang digunakan untuk streaming, Blu-ray, dan distribusi digital. Menawarkan kualitas tinggi dengan ukuran file kecil.</p>
@@ -271,21 +167,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="hevc-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="hevc-video">
                   <source src="img/VIDEO/Pocket Sage hevc.mp4" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">High Efficiency Video Coding</h3>
               <p class="text-gray-300 mb-4">Penerus H.264 yang menawarkan kompresi lebih efisien. Ideal untuk konten 4K/8K dan streaming dengan bandwidth terbatas.</p>
@@ -303,21 +188,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="mp4-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="mp4-video">
                   <source src="img/VIDEO/Pocket Sage mp4.mp4" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">MPEG-4 Part 14</h3>
               <p class="text-gray-300 mb-4">Format container multimedia populer yang dapat menyimpan video, audio, subtitle, dan gambar. Dikembangkan oleh ISO/IEC dan mendukung berbagai codec video termasuk H.264, H.265, dan AVC.</p>
@@ -335,21 +209,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="av1-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="av1-video">
                   <source src="img/VIDEO/Pocket Sage avi.avi" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">AOMedia Video 1</h3>
               <p class="text-gray-300 mb-4">Codec video generasi terbaru yang dikembangkan oleh Alliance for Open Media. Menawarkan efisiensi kompresi lebih baik dari VP9 dan HEVC.</p>
@@ -362,34 +225,23 @@
 
           <!-- WMV -->
           <div class="format-card rounded-lg overflow-hidden">
-            <div class="bg-blue-700 px-4 py-2">
-              <h2 class="text-xl font-bold">WMV</h2>
-            </div>
-            <div class="p-6">
-              <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="wmv-video">
-                  <source src="img/VIDEO/Pocket Sage wmv.wmv" type="video/mp4">
-                  Maaf, browser Anda tidak mendukung pemutaran video.
-                </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
+              <div class="bg-blue-700 px-4 py-2">
+                <h2 class="text-xl font-bold">WMV</h2>
+              </div>
+              <div class="p-6">
+                <div class="custom-video-player w-full">
+                  <video class="format-video w-full rounded" controls autoplay muted loop id="wmv-video">
+                    <source src="img/VIDEO/Pocket Sage wmv.wmv" type="video/mp4">
+                    Maaf, browser Anda tidak mendukung pemutaran video.
+                  </video>
+                </div>
+                <h3 class="text-lg font-semibold mb-2 mt-4">Windows Media Video</h3>
+                <p class="text-gray-300 mb-4">Format yang dikembangkan oleh Microsoft dan terintegrasi dengan ekosistem Windows. Mendukung DRM untuk konten berhak cipta.</p>
+                <div class="text-sm text-gray-400">
+                  <p><strong>Kelebihan:</strong> Integrasi dengan Windows, kompresi efisien</p>
+                  <p><strong>Kekurangan:</strong> Kompatibilitas terbatas di platform non-Windows</p>
                 </div>
               </div>
-              <h3 class="text-lg font-semibold mb-2 mt-4">Windows Media Video</h3>
-              <p class="text-gray-300 mb-4">Format yang dikembangkan oleh Microsoft dan terintegrasi dengan ekosistem Windows. Mendukung DRM untuk konten berhak cipta.</p>
-              <div class="text-sm text-gray-400">
-                <p><strong>Kelebihan:</strong> Integrasi dengan Windows, kompresi efisien</p>
-                <p><strong>Kekurangan:</strong> Kompatibilitas terbatas di platform non-Windows</p>
-              </div>
-            </div>
           </div>
 
           <!-- MOV -->
@@ -399,21 +251,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="mov-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="mov-video">
                   <source src="img/VIDEO/Pocket Sage mov.mov" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">QuickTime Movie</h3>
               <p class="text-gray-300 mb-4">Format container yang dikembangkan oleh Apple untuk QuickTime Player. Populer dalam industri kreatif dan produksi video.</p>
@@ -431,21 +272,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="flv-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="flv-video">
                   <source src="img/VIDEO/Pocket Sage flv.flv" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">Flash Video</h3>
               <p class="text-gray-300 mb-4">Format video yang awalnya dikembangkan untuk Adobe Flash Player. Pernah mendominasi streaming video online sebelum era HTML5.</p>
@@ -463,21 +293,10 @@
             </div>
             <div class="p-6">
               <div class="custom-video-player w-full">
-                <video class="format-video w-full rounded" id="webm-video">
+                <video class="format-video w-full rounded" controls autoplay muted loop id="webm-video">
                   <source src="img/VIDEO/Pocket Sage webm.webm" type="video/mp4">
                   Maaf, browser Anda tidak mendukung pemutaran video.
                 </video>
-                <div class="video-controls">
-                  <div class="progress-container">
-                    <div class="progress-bar"></div>
-                  </div>
-                  <div class="control-buttons">
-                    <button class="play-pause-btn">
-                      <i class="fas fa-play"></i>
-                    </button>
-                    <span class="time-display">00:00 / 00:00</span>
-                  </div>
-                </div>
               </div>
               <h3 class="text-lg font-semibold mb-2 mt-4">Web Media Format</h3>
               <p class="text-gray-300 mb-4">Format video open source yang dikembangkan oleh Google khusus untuk web. Menggunakan codec VP8/VP9 untuk video dan Vorbis/Opus untuk audio.</p>
@@ -487,7 +306,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </main>
@@ -496,19 +314,20 @@
     <footer class="bg-gray-800 py-8 text-center">
       <div class="container mx-auto">
         <div class="flex justify-center space-x-6 mb-4">
-          <a href="https://github.com/n4ctbyte" target="_blank" class="text-gray-400 hover:text-white">
+          <a href="https://github.com/n4ctbyte" target="_blank" class="social-icon github">
             <i class="fab fa-github text-2xl"></i>
           </a>
-          <a href="https://instagram.com/nakata_chr" target="_blank" class="text-gray-400 hover:text-white">
+          <a href="https://instagram.com/nakata_chr" target="_blank" class="social-icon instagram">
             <i class="fab fa-instagram text-2xl"></i>
           </a>
-          <a href="https://www.linkedin.com/in/nakata-christian-31ba31335/" target="_blank" class="text-gray-400 hover:text-white">
+          <a href="https://www.linkedin.com/in/nakata-christian-31ba31335/" target="_blank" class="social-icon linkedin">
             <i class="fab fa-linkedin text-2xl"></i>
           </a>
         </div>
         <p class="text-gray-400">© 2025 Nakata Christian - Digital Creator</p>
       </div>
     </footer>
+    <!-- Footer End -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
       const videoPlayers = document.querySelectorAll('.custom-video-player');

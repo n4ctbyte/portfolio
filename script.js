@@ -610,3 +610,32 @@ tl.from("#splash-animation", { opacity: 0, scale: 0.5, duration: 0.5, ease: "ela
     }
   });
 });
+
+const cards = document.querySelectorAll('.format-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left; // x position within the element
+          const y = e.clientY - rect.top;  // y position within the element
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const deltaX = (x - centerX) / 20;
+          const deltaY = (y - centerY) / 20;
+          
+          card.style.transform = `translateY(-10px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = '';
+          setTimeout(() => {
+            card.style.transition = 'transform 0.3s ease';
+          }, 100);
+        });
+        
+        card.addEventListener('mouseenter', function() {
+          card.style.transition = 'transform 0.1s ease';
+        });
+      });

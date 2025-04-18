@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Format Audio - Nakata Christian</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
     <style>
+      body {
+        cursor: auto;
+      }
+
       .card {
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border: 1px solid rgba(59, 130, 246, 0.1);
@@ -18,18 +25,6 @@
         transform: translateY(-10px);
         box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
         border: 1px solid rgba(59, 130, 246, 0.3);
-      }
-
-      .format-card {
-        perspective: 1000px;
-        transition: all 0.6s ease;
-        background: linear-gradient(145deg, rgba(55, 65, 81, 1) 0%, rgba(31, 41, 55, 1) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.2);
-      }
-
-      .format-card:hover {
-        transform: rotateY(5deg) scale(1.05);
-        box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
       }
 
       .nav-link-hover::after {
@@ -72,11 +67,7 @@
         transition: width 0.1s linear;
       }
       
-      .controls {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+      
       
       .mp3-progress { background: #3b82f6; }
       .wav-progress { background: #10b981; }
@@ -136,13 +127,17 @@
         background: white;
         cursor: pointer;
       }
+
+      /* body {
+        cursor: auto;
+      } */
     </style>
   </head>
   <body class="bg-gray-900 text-white">
     <nav class="fixed w-full z-50 bg-gray-800 bg-opacity-90 backdrop-blur-sm">
       <div class="container mx-auto px-6 py-3">
         <div class="flex justify-between items-center">
-          <a href="index.html" class="text-2xl font-bold text-blue-400">Nakata Christian</a>
+          <a href="index.html" class="text-2xl font-bold text-blue-400 interactive-element">Nakata Christian</a>
           
           <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-blue-400 focus:outline-none">
             <i class="fas fa-bars text-2xl"></i>
@@ -173,7 +168,7 @@
       </div>
     </nav>    
 
-    <header class="pt-24 pb-12 bg-gray-800">
+    <header class="pt-24 pb-12 bg-gray-800 floating-element">
       <div class="container mx-auto text-center px-4">
         <h1 class="text-4xl font-bold mb-4 text-white">Format <span class="text-blue-400">Audio</span></h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">Berikut adalah 10 format audio populer yang umum digunakan dalam produksi musik, podcast, dan pengembangan web. Dengarkan contoh audio pada setiap format.</p>
@@ -185,7 +180,7 @@
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           
-          <div class="format-card rounded-lg overflow-hidden">
+          <div class="rounded-lg overflow-hidden format-card">
             <div class="bg-blue-600 px-4 py-2">
               <h2 class="text-xl font-bold">.MP3</h2>
             </div>
@@ -566,6 +561,24 @@
         </div>
       </div>
     </main>
+
+    <footer class="bg-gray-800 py-8 text-center">
+      <div class="container mx-auto">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="https://github.com/n4ctbyte" target="_blank" class="social-icon github">
+            <i class="fab fa-github text-2xl"></i>
+          </a>
+          <a href="https://instagram.com/nakata_chr" target="_blank" class="social-icon instagram">
+            <i class="fab fa-instagram text-2xl"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/nakata-christian-31ba31335/" target="_blank" class="social-icon linkedin">
+            <i class="fab fa-linkedin text-2xl"></i>
+          </a>
+        </div>
+        <p class="text-gray-400">© 2025 Nakata Christian - Digital Creator</p>
+      </div>
+    </footer>
+    <!-- Footer End -->
     <script>
       document.getElementById('mobile-menu-button').addEventListener('click', function() {
         document.getElementById('mobile-menu').classList.toggle('hidden');
