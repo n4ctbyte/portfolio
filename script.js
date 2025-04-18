@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const particlesContainer = document.querySelector('.particles-container');
   
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 45; i++) {
     const size = Math.random() * 10 + 2;
     const particle = document.createElement('div');
     particle.classList.add('particle');
