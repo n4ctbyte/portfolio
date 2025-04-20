@@ -88,6 +88,44 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+    const multimediaToggle = document.getElementById('multimedia-toggle');
+    const multimediaDropdown = document.getElementById('multimedia-dropdown');
+    
+    if (multimediaToggle && multimediaDropdown) {
+      multimediaToggle.addEventListener('click', function(e) {
+        // Only prevent default on mobile/touch devices
+        if (window.innerWidth < 768) {
+          e.preventDefault();
+          multimediaDropdown.classList.toggle('hidden');
+        }
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!multimediaToggle.contains(e.target) && !multimediaDropdown.contains(e.target)) {
+          multimediaDropdown.classList.add('hidden');
+        }
+      });
+    }
+    
+    const mobileMultimediaToggle = document.getElementById('mobile-multimedia-toggle');
+    const mobileMultimediaDropdown = document.getElementById('mobile-multimedia-dropdown');
+    
+    if (mobileMultimediaToggle && mobileMultimediaDropdown) {
+      mobileMultimediaToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        mobileMultimediaDropdown.classList.toggle('hidden');
+        
+        const arrow = this.querySelector('svg');
+        if (arrow) {
+          if (mobileMultimediaDropdown.classList.contains('hidden')) {
+            arrow.style.transform = 'rotate(0deg)';
+          } else {
+            arrow.style.transform = 'rotate(180deg)';
+          }
+        }
+      });
+    }
+
   const interactiveElements = document.querySelectorAll('.interactive-element');
   interactiveElements.forEach(element => {
     element.addEventListener('mouseenter', () => {

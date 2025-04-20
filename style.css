@@ -591,3 +591,22 @@
     perspective: 1000px;
   }
   
+#mobile-multimedia-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+#mobile-multimedia-dropdown.open {
+  max-height: 300px;
+}
+
+#mobile-multimedia-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .group:hover #multimedia-dropdown {
+    display: block;
+  }
+}
