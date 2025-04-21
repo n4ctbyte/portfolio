@@ -12,9 +12,18 @@ document.addEventListener("DOMContentLoaded", function() {
     greeting: "Hello there! I'm Yuuki, your personal AI assistant. How can I help you today?"
   };
 
+let conversationHistory = [];
+const maxConversationMemory = 20;
+
   async function processWithYuuki(message) {
     try {
       showTypingIndicator();
+      
+      conversationHistory.push({ role: "user", content: message });
+      
+      if (conversationHistory.length > maxConversationMemory * 2) {
+        conversationHistory = conversationHistory.slice(-maxConversationMemory * 2);
+      }
       
       const systemPrompt = `You are ${yuukiPersonality.name}, ${yuukiPersonality.role}. 
   You were created by Nakata Christian. You are ${yuukiPersonality.background}. 
@@ -26,6 +35,11 @@ document.addEventListener("DOMContentLoaded", function() {
   - Interests in AI and ML technologies
   Keep your responses relatively brief and conversational.`;
 
+      const messages = [
+        { role: "system", content: systemPrompt },
+        ...conversationHistory
+      ];
+
       const response = await fetch(GROQ_API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -34,10 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: message }
-          ],
+          messages: messages,
           max_tokens: 500,
           temperature: 0.7
         })
@@ -47,7 +58,10 @@ document.addEventListener("DOMContentLoaded", function() {
       
       if (data.choices && data.choices[0] && data.choices[0].message) {
         removeTypingIndicator();
-        addMessage('bot', data.choices[0].message.content);
+        const botResponse = data.choices[0].message.content;
+        addMessage('bot', botResponse);
+        
+        conversationHistory.push({ role: "assistant", content: botResponse });
       } else {
         throw new Error("Unexpected response format from API");
       }
